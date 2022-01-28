@@ -1,0 +1,42 @@
+﻿@page "/Books/bind"
+@using Model.DTO
+@inject BooksRepository repo
+@inject AuthorRepository repo2
+
+
+<EditForm Model="model" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>Author Id:</label>
+    <InputNumber @bind-Value="aut"/>
+
+    <button>Dodaj</button>
+</EditForm>
+
+
+@code {
+    BookRequestDTO model = new BookRequestDTO();
+    [Parameter]
+    public BookDTO originalModel { get; set; }
+    int aut;
+    PaginationDTO paginationDTO = new PaginationDTO(0, 100);
+
+    protected override void OnInitialized()
+    {
+        model.Title = originalModel.Title;
+        model.ReleaseDate = originalModel.ReleaseDate;
+        model.Description = originalModel.Description;
+        model.AuthorsId = originalModel.Authors.Select(x => x.Id).ToList();
+    }
+
+    public void OnSubmit()
+    {
+        if (aut>0||aut<= repo2.GetAuthors(paginationDTO).Count || !model.AuthorsId.Contains(aut))
+        {
+            model.AuthorsId.Add(aut);
+            repo.PutBook(originalModel.Id, model);
+        }
+    }
+
+}

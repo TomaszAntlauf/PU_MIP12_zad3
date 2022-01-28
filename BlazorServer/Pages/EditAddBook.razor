@@ -1,0 +1,53 @@
+﻿@page "/Books/add"
+@using Model.DTO
+@inject BooksRepository repo
+
+
+<EditForm Model="model" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>Title:</label>
+    <InputText @bind-Value="model.Title" />
+
+    <label>ReleaseDate:</label>
+    <InputDate @bind-Value="model.ReleaseDate" />
+
+    <label>Description:</label>
+    <InputText @bind-Value="model.Description" />
+
+    <button>Wprowadź</button>
+</EditForm>
+
+
+@code {
+    BookRequestDTO model = new BookRequestDTO();
+    //BookDTO nBook = new BookDTO();
+    [Parameter]
+    public BookDTO originalModel { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (originalModel != null)
+        {
+            model.Title = originalModel.Title;
+            model.ReleaseDate = originalModel.ReleaseDate;
+            model.Description = originalModel.Description;
+            model.AuthorsId = originalModel.Authors.Select(x => x.Id).ToList();
+        }
+    }
+
+    public void OnSubmit()
+    {
+        if (originalModel != null)
+        {
+            repo.PutBook(originalModel.Id, model);
+        }
+        else
+        {
+            repo.PostBook(model);
+        }
+
+    }
+
+}

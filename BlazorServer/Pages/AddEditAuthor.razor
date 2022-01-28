@@ -1,0 +1,53 @@
+﻿@page "/Authors/add"
+@using Model.DTO
+@inject AuthorRepository repo
+
+
+<EditForm Model="model" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>First Name:</label>
+    <InputText @bind-Value="model.FirstName" />
+
+    <label>Second Name:</label>
+    <InputText @bind-Value="model.SecondName" />
+
+    <label>CV:</label>
+    <InputText @bind-Value="model.CV" />
+
+    <button>Wprowadź</button>
+</EditForm>
+
+
+@code {
+    AuthorRequestDTO model = new AuthorRequestDTO();
+    AuthorDTO nBook = new AuthorDTO();
+    [Parameter]
+    public AuthorDTO originalModel { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (originalModel != null)
+        {
+            model.FirstName = originalModel.FirstName;
+            model.SecondName = originalModel.SecondName;
+            model.CV = originalModel.CV;
+            model.BooksId = originalModel.Books.Select(x => x.Id).ToList();
+        }
+    }
+
+    public void OnSubmit()
+    {
+        if (originalModel != null)
+        {
+            repo.PutAuthor(originalModel.Id, model);
+        }
+        else
+        {
+            repo.PostAuthor(model);
+        }
+
+    }
+
+}

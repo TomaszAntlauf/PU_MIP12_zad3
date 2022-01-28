@@ -1,0 +1,115 @@
+﻿@page "/Authors"
+@using Model.DTO
+@inject AuthorRepository repo
+
+<h1>Authors</h1>
+
+@if (!EditMode && !BindMode)
+{
+    <button @onclick="onClick" class="btn btn-primary">Dodaj</button>
+    <table class="table tabela">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Second Name</th>
+                <th>Average Rates</th>
+                <th>Rates Count</th>
+                <th>Books</th>
+                <th>CV</th>
+                <th>Rate</th>
+                <th>Edit</th>
+                <th>Add a book</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in data)
+            {
+                <tr>
+                    <td>@d.Id</td>
+                    <td>@d.FirstName</td>
+                    <td>@d.SecondName</td>
+                    <td>@d.AvarageRates</td>
+                    <td>@d.RatesCount</td>
+                    <td>@display(d)</td>
+                    <td>@d.CV</td>
+                    <td>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            int x = i;
+                            <button @onclick="()=>ocen(d,x)">@i</button>
+                        }
+                    </td>
+                    <td><button type="button" @onclick="() =>choose(d)" class="oi oi-cog"></button></td>
+                    <td><button type="button" @onclick="() =>bind(d)" class="oi oi-plus"></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (EditMode && !BindMode)
+{
+    <AddEditAuthor originalModel="clickedModel" />
+    <button @onclick="onClick" class="btn btn-primary">Powrót</button>
+}
+else
+{
+    <AuthorBind originalModel="clickedModel" />
+    <button @onclick="onClick2" class="btn btn-primary">Powrót</button>
+}
+
+@code{
+
+    protected List<AuthorDTO> data;
+
+    protected override async Task OnInitializedAsync()
+    {
+        PaginationDTO paginationDTO = new PaginationDTO(0, 100);
+
+        data = repo.GetAuthors(paginationDTO);
+    }
+
+    bool EditMode = false;
+    bool BindMode = false;
+    AuthorDTO clickedModel = null;
+
+    void onClick()
+    {
+        clickedModel = null;
+        EditMode = !EditMode;
+    }
+    void onClick2()
+    {
+        clickedModel = null;
+        BindMode = false;
+    }
+    void choose(AuthorDTO aut)
+    {
+        clickedModel = aut;
+        EditMode = true;
+    }
+    void bind(AuthorDTO aut2)
+    {
+        clickedModel = aut2;
+        BindMode = true;
+    }
+
+    string display(AuthorDTO aut)
+    {
+        if (aut.Books.Count > 3)
+        {
+            var books = aut.Books.Select(x => x.Title).Take(3);
+            return string.Join(" ,", books) + "+".ToString();
+        }
+        else
+        {
+            return string.Join(" ,", aut.Books.Select(x => x.Title).ToArray());
+        }
+    }
+
+    void ocen(AuthorDTO aut, int rate)
+    {
+        repo.AddAuthorRate(aut.Id, rate);
+    }
+
+}

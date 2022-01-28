@@ -1,0 +1,107 @@
+﻿@page "/Books"
+@using Model.DTO
+@inject BooksRepository repo
+
+<h1>Books</h1>
+
+@if (!EditMode && !BindMode)
+{
+    <button @onclick="onClick" class="btn btn-primary">Dodaj</button>
+    <table class="table tabela">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Release Date</th>
+                <th>Average Rates</th>
+                <th>Rates Count</th>
+                <th>Authors</th>
+                <th>Description</th>
+                <th>Rate</th>
+                <th>Edit</th>
+                <th>Add an Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in data)
+            {
+                <tr>
+                    <td>@d.Id</td>
+                    <td>@d.Title</td>
+                    <td>@d.ReleaseDate</td>
+                    <td>@d.AvarageRates</td>
+                    <td>@d.RatesCount</td>
+                    <td>@string.Join(", ", d.Authors.Select(x => x.FirstName + " " + x.SecondName).ToArray())</td>
+                    <td>@d.Description</td>
+                    <td>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            int x = i;
+                            <button @onclick="()=>ocen(d,x)">@i</button>
+                        }
+                    </td>
+                    <td><button type="button" @onclick="() =>choose(d)" class="oi oi-cog"></button></td>
+                    <td><button type="button" @onclick="() =>bind(d)" class="oi oi-plus"></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (EditMode && !BindMode)
+{
+    <EditAddBook originalModel="clickedModel" />
+
+    <button @onclick="onClick" class="btn btn-primary">Powrót</button>
+}
+else
+{
+    <BookBind originalModel="clickedModel" />
+
+    <button @onclick="onClick2" class="btn btn-primary">Powrót</button>
+
+}
+
+@code{
+
+    protected List<BookDTO> data;
+
+    protected override async Task OnInitializedAsync()
+    {
+        PaginationDTO paginationDTO = new PaginationDTO(0, 100);
+
+        data = repo.GetBooks(paginationDTO);
+    }
+
+    bool EditMode = false;
+    bool BindMode = false;
+    BookDTO clickedModel = null;
+
+    void onClick()
+    {
+        clickedModel = null;
+        EditMode = !EditMode;
+
+    }
+    void onClick2()
+    {
+        clickedModel = null;
+        BindMode = false;
+    }
+    void choose(BookDTO book)
+    {
+        clickedModel = book;
+        EditMode = true;
+    }
+
+    void bind(BookDTO book2)
+    {
+        clickedModel = book2;
+        BindMode = true;
+    }
+
+    void ocen(BookDTO book, int rate)
+    {
+        repo.AddBookRate(book.Id, rate);
+    }
+
+}
