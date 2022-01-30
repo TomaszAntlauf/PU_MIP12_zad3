@@ -1,0 +1,24 @@
+﻿@page "/Books/delete"
+@using Model.DTO
+@inject BooksRepository repo
+
+
+<div class="card" style="width:22rem">
+    <div class="card-body">
+        <h3 class="card-title">Usuwanie</h3>
+        <p class="card-text">Czy na pewno chcesz usunąć?</p>
+        <button @onclick="onYes">Tak</button>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public BookDTO originalModel { get; set; }
+
+    public void onYes()
+    {
+        repo.DeleteDTO(originalModel.Id);
+    }
+}

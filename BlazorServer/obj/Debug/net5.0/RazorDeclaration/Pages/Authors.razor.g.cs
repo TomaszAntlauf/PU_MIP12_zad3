@@ -112,7 +112,7 @@ using Model.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 61 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\Authors.razor"
+#line 68 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\Authors.razor"
       
 
     protected List<AuthorDTO> data;
@@ -126,6 +126,7 @@ using Model.DTO;
 
     bool EditMode = false;
     bool BindMode = false;
+    bool DelMode = false;
     AuthorDTO clickedModel = null;
 
     void onClick()
@@ -138,6 +139,11 @@ using Model.DTO;
         clickedModel = null;
         BindMode = false;
     }
+    void onClick3()
+    {
+        clickedModel = null;
+        DelMode = false;
+    }
     void choose(AuthorDTO aut)
     {
         clickedModel = aut;
@@ -147,6 +153,11 @@ using Model.DTO;
     {
         clickedModel = aut2;
         BindMode = true;
+    }
+    void delete(AuthorDTO aut3)
+    {
+        clickedModel = aut3;
+        DelMode = true;
     }
 
     string display(AuthorDTO aut)

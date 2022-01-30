@@ -4,7 +4,7 @@
 
 <h1>Authors</h1>
 
-@if (!EditMode && !BindMode)
+@if (!EditMode && !BindMode && !DelMode)
 {
     <button @onclick="onClick" class="btn btn-primary">Dodaj</button>
     <table class="table tabela">
@@ -20,6 +20,7 @@
                 <th>Rate</th>
                 <th>Edit</th>
                 <th>Add a book</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -42,20 +43,26 @@
                     </td>
                     <td><button type="button" @onclick="() =>choose(d)" class="oi oi-cog"></button></td>
                     <td><button type="button" @onclick="() =>bind(d)" class="oi oi-plus"></button></td>
+                    <td><button type="button" @onclick="()=>delete(d)" class="oi oi-trash"></button></td>
                 </tr>
             }
         </tbody>
     </table>
 }
-else if (EditMode && !BindMode)
+else if (EditMode && !BindMode && !DelMode)
 {
     <AddEditAuthor originalModel="clickedModel" />
     <button @onclick="onClick" class="btn btn-primary">Powrót</button>
 }
-else
+else if (BindMode && !EditMode && !DelMode)
 {
     <AuthorBind originalModel="clickedModel" />
     <button @onclick="onClick2" class="btn btn-primary">Powrót</button>
+}
+else
+{
+    <AuthorDelete originalModel="clickedModel"/>
+    <button @onclick="onClick3" class="btn btn-primary">Powrót</button>
 }
 
 @code{
@@ -71,6 +78,7 @@ else
 
     bool EditMode = false;
     bool BindMode = false;
+    bool DelMode = false;
     AuthorDTO clickedModel = null;
 
     void onClick()
@@ -83,6 +91,11 @@ else
         clickedModel = null;
         BindMode = false;
     }
+    void onClick3()
+    {
+        clickedModel = null;
+        DelMode = false;
+    }
     void choose(AuthorDTO aut)
     {
         clickedModel = aut;
@@ -92,6 +105,11 @@ else
     {
         clickedModel = aut2;
         BindMode = true;
+    }
+    void delete(AuthorDTO aut3)
+    {
+        clickedModel = aut3;
+        DelMode = true;
     }
 
     string display(AuthorDTO aut)

@@ -97,14 +97,14 @@ using Repository_Pattern;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\Books.razor"
+#line 2 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\AuthorDelete.razor"
 using Model.DTO;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/Books")]
-    public partial class Books : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Authors/delete")]
+    public partial class AuthorDelete : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -112,66 +112,21 @@ using Model.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 69 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\Books.razor"
-      
+#line 15 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\AuthorDelete.razor"
+       
+    
+    [Parameter]
+    public AuthorDTO originalModel { get; set; }
 
-    protected List<BookDTO> data;
-
-    protected override async Task OnInitializedAsync()
+    public void onYes()
     {
-        PaginationDTO paginationDTO = new PaginationDTO(0, 100);
-
-        data = repo.GetBooks(paginationDTO);
+        repo.DeleteDTO(originalModel.Id);
     }
-
-    bool EditMode = false;
-    bool BindMode = false;
-    bool DelMode = false;
-    BookDTO clickedModel = null;
-
-    void onClick()
-    {
-        clickedModel = null;
-        EditMode = !EditMode;
-
-    }
-    void onClick2()
-    {
-        clickedModel = null;
-        BindMode = false;
-    }
-    void onClick3()
-    {
-        clickedModel = null;
-        DelMode = false;
-    }
-    void choose(BookDTO book)
-    {
-        clickedModel = book;
-        EditMode = true;
-    }
-
-    void bind(BookDTO book2)
-    {
-        clickedModel = book2;
-        BindMode = true;
-    }
-    void delete(BookDTO aut3)
-    {
-        clickedModel = aut3;
-        DelMode = true;
-    }
-
-    void ocen(BookDTO book, int rate)
-    {
-        repo.AddBookRate(book.Id, rate);
-    }
-
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private BooksRepository repo { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthorRepository repo { get; set; }
     }
 }
 #pragma warning restore 1591

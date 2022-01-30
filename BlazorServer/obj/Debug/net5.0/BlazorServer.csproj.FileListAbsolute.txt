@@ -103,3 +103,7 @@ C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\RazorDec
 C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\Razor\Pages\BookBind.razor.g.cs
 C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\RazorDeclaration\Pages\AuthorBind.razor.g.cs
 C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\Razor\Pages\AuthorBind.razor.g.cs
+C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\RazorDeclaration\Pages\AuthorDelete.razor.g.cs
+C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\Razor\Pages\AuthorDelete.razor.g.cs
+C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\RazorDeclaration\Pages\BookDelete.razor.g.cs
+C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\obj\Debug\net5.0\Razor\Pages\BookDelete.razor.g.cs

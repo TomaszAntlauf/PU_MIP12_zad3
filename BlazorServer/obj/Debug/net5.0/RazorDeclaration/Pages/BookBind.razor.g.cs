@@ -130,7 +130,7 @@ using Model.DTO;
 
     public void OnSubmit()
     {
-        if (aut>0||aut<= repo2.GetAuthors(paginationDTO).Count)
+        if (aut>0||aut<= repo2.GetAuthors(paginationDTO).Count || !model.AuthorsId.Contains(aut))
         {
             model.AuthorsId.Add(aut);
             repo.PutBook(originalModel.Id, model);
