@@ -112,15 +112,15 @@ using Model.DTO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 69 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\Books.razor"
+#line 68 "C:\Users\tomaa\source\repos\PU-MIP12-zad3\BlazorServer\Pages\Books.razor"
       
 
     protected List<BookDTO> data;
+    PaginationDTO paginationDTO = new PaginationDTO(0, 100);
+
 
     protected override async Task OnInitializedAsync()
     {
-        PaginationDTO paginationDTO = new PaginationDTO(0, 100);
-
         data = repo.GetBooks(paginationDTO);
     }
 
@@ -133,17 +133,20 @@ using Model.DTO;
     {
         clickedModel = null;
         EditMode = !EditMode;
+        data = repo.GetBooks(paginationDTO);
 
     }
     void onClick2()
     {
         clickedModel = null;
         BindMode = false;
+        data = repo.GetBooks(paginationDTO);
     }
     void onClick3()
     {
         clickedModel = null;
         DelMode = false;
+        data = repo.GetBooks(paginationDTO);
     }
     void choose(BookDTO book)
     {
@@ -165,6 +168,7 @@ using Model.DTO;
     void ocen(BookDTO book, int rate)
     {
         repo.AddBookRate(book.Id, rate);
+        data = repo.GetBooks(paginationDTO);
     }
 
 

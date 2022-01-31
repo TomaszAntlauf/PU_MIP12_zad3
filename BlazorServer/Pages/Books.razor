@@ -52,7 +52,6 @@
 else if (EditMode && !BindMode && !DelMode)
 {
     <EditAddBook originalModel="clickedModel" />
-
     <button @onclick="onClick" class="btn btn-primary">Powrót</button>
 }
 else if (BindMode && !EditMode && !DelMode)
@@ -69,11 +68,11 @@ else
 @code{
 
     protected List<BookDTO> data;
+    PaginationDTO paginationDTO = new PaginationDTO(0, 100);
+
 
     protected override async Task OnInitializedAsync()
     {
-        PaginationDTO paginationDTO = new PaginationDTO(0, 100);
-
         data = repo.GetBooks(paginationDTO);
     }
 
@@ -86,17 +85,20 @@ else
     {
         clickedModel = null;
         EditMode = !EditMode;
+        data = repo.GetBooks(paginationDTO);
 
     }
     void onClick2()
     {
         clickedModel = null;
         BindMode = false;
+        data = repo.GetBooks(paginationDTO);
     }
     void onClick3()
     {
         clickedModel = null;
         DelMode = false;
+        data = repo.GetBooks(paginationDTO);
     }
     void choose(BookDTO book)
     {
@@ -118,6 +120,7 @@ else
     void ocen(BookDTO book, int rate)
     {
         repo.AddBookRate(book.Id, rate);
+        data = repo.GetBooks(paginationDTO);
     }
 
 }

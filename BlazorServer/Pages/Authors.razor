@@ -68,11 +68,10 @@ else
 @code{
 
     protected List<AuthorDTO> data;
+    PaginationDTO paginationDTO = new PaginationDTO(0, 100);
 
     protected override async Task OnInitializedAsync()
     {
-        PaginationDTO paginationDTO = new PaginationDTO(0, 100);
-
         data = repo.GetAuthors(paginationDTO);
     }
 
@@ -85,16 +84,19 @@ else
     {
         clickedModel = null;
         EditMode = !EditMode;
+        data = repo.GetAuthors(paginationDTO);
     }
     void onClick2()
     {
         clickedModel = null;
         BindMode = false;
+        data = repo.GetAuthors(paginationDTO);
     }
     void onClick3()
     {
         clickedModel = null;
         DelMode = false;
+        data = repo.GetAuthors(paginationDTO);
     }
     void choose(AuthorDTO aut)
     {
@@ -128,6 +130,7 @@ else
     void ocen(AuthorDTO aut, int rate)
     {
         repo.AddAuthorRate(aut.Id, rate);
+        data = repo.GetAuthors(paginationDTO);
     }
 
 }
